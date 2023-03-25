@@ -10,9 +10,9 @@
         <el-input @focus="onFocus2" @blur="onBlur2" type="password" show-password v-model="password" placeholder="请输入密码" id="password"/>
         </div>
         <div class="button">
-            <button class="login" @click="login">普通用户登录</button>
+            <button class="login" @click="login">确认登录</button>
             <el-divider/>
-            <button class="login adminlogin" @click="login">管理员登录</button>
+            <a class="register">新用户点此注册</a>
         </div>
         </div>
     </div>
