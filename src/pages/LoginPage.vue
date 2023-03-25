@@ -12,7 +12,7 @@
         <div class="button">
             <button class="login" @click="login">确认登录</button>
             <el-divider/>
-            <a class="register">新用户点此注册</a>
+            <a class="register">新用户点此注册👈</a>
         </div>
         </div>
     </div>
