@@ -24,4 +24,17 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    host: true,
+		port: 5173,
+		https: false,
+    proxy: {'/api':'http://pve.lycoris.site:9780',}
+    /* {
+      '/api': {
+        target: 'http://pve.lycoris.site:9780',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    } */
+  }
 })

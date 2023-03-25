@@ -3,7 +3,7 @@ import myAxios from "../axios";
 //注册
 export function userRegister(password:string, username:string) {
     return myAxios({
-        url:"/user/register?",
+        url:"/api/user/register",
         method: 'POST',
         data: {
             password, username
@@ -14,7 +14,7 @@ export function userRegister(password:string, username:string) {
 //登录
 export function userLogin(password:string, username:string) {
     return myAxios({
-        url:"/user/login?",
+        url:"/api/user/login",
         method: 'POST',
         data: {
             password, username

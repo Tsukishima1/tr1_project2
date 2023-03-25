@@ -2,7 +2,7 @@ import axios, {AxiosInstance} from 'axios';
 
 function myAxios(axiosConfig:any) {
     const service:AxiosInstance = axios.create({
-        baseURL:"http://pve.lycoris.site:9780/",
+        // baseURL:"http://pve.lycoris.site:9780",
         timeout: 10000,
     });
 
