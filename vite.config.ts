@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import {resolve} from "path"
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import {ElementPlusResolver} from 'unplugin-vue-components/resolvers';
@@ -24,17 +25,12 @@ export default defineConfig({
       },
     },
   },
-  server: {
-    host: true,
-		port: 5173,
-		https: false,
-    proxy: {'/api':'http://pve.lycoris.site:9780',}
-    /* {
-      '/api': {
-        target: 'http://pve.lycoris.site:9780',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    } */
+  resolve: {
+    alias: [
+      {
+        find:'@',
+        replacement: resolve(__dirname, './src'),
+      }
+    ]
   }
 })

@@ -9,11 +9,16 @@
         <p for="password" class="animate__animated" :class="{ 'slideInLeft': isFocused2 }">密码✨</p>
         <el-input @focus="onFocus2" @blur="onBlur2" type="password" show-password v-model="password" placeholder="请输入密码" id="password"/>
         </div>
-        <div class="button">
+        <div class="button" v-if="!toRegis">
             <button class="login" @click="login">确认登录</button>
             <el-divider/>
-            <a class="register">新用户点此注册👈</a>
+            <a class="register" @click="toRegis=true">未有账号?点此注册👈</a>
         </div>
+        <div class="button" v-if="toRegis">
+            <button class="regis" @click="register">点击注册</button>
+            <el-divider/>
+            <a class="register" @click="toRegis=false">已有账号?点此登录👈</a>
+        </div>        
         </div>
     </div>
     <br>
@@ -24,10 +29,16 @@
 <script setup lang='ts'>
     import { ref } from 'vue'
     import { useRouter } from 'vue-router';
-    import { userRegister,userLogin } from '../http/api/user';
+    import { userRegister,userLogin } from '@/http/api/user';
+    import { useStoreToken } from "@/stores/index";
+    import { ElMessage } from 'element-plus'
+
     const router = useRouter();
-    const isFocused1 = ref(false);
-    const isFocused2 = ref(false);
+    const storeToken = useStoreToken();
+
+    const isFocused1:boolean = ref(false);
+    const isFocused2:boolean = ref(false);
+    const toRegis:boolean = ref(false);
 
     const onFocus1 = () => {
         isFocused1.value = true;
@@ -43,30 +54,48 @@
         isFocused2.value = false;
     }
 
-    function toHomePage() {
-        router.push({name: 'homepage'});
-    }
-
     const username = ref('');
     const password = ref('');
 
+    // 处理注册
     const register = async ()=> {
         try {
             let res = await userRegister(password.value,username.value);
             console.log(res);
+            if (res.data==='isOk') {
+                ElMessage({
+                    message:'注册成功，请重新登录！',
+                    type:'success',
+                }),
+                toRegis.value=false;
+            }
+            else {
+                ElMessage.error('该账号已存在，无法注册');
+            }
         } catch (error) {
             console.error(error);
         }
     }
+    // 处理登录
     const login = async ()=> {
         try {
             let res = await userLogin(password.value,username.value);
-            console.log(res);
+            if (res.data.code===200) {
+                ElMessage({
+                    type: 'success',
+                    message: '登录成功！'
+                })
+                storeToken.setToken(res.data.data.token);
+                router.replace({name: 'homepage'});
+            }
+            else {
+                ElMessage.error('登录失败：'+res.data.data)
+            }
         } catch (error) {
             console.error(error);
         }
     }
 </script>
     
-<style scope src="../assets/style/login.less" lang="less">
+<style scope src="@/assets/style/login.css">
 </style>

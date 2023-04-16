@@ -1,11 +1,12 @@
-import myAxios from "../axios";
+import myAxios from "@/http/axios";
 
 //注册
 export function userRegister(password:string, username:string) {
     return myAxios({
-        url:"/api/user/register",
+        url:"/user/register",
         method: 'POST',
-        data: {
+        data:{},
+        params: {
             password, username
         }
     })
@@ -14,9 +15,10 @@ export function userRegister(password:string, username:string) {
 //登录
 export function userLogin(password:string, username:string) {
     return myAxios({
-        url:"/api/user/login",
+        url:"/user/userLogin",
         method: 'POST',
-        data: {
+        data: {},
+        params: {
             password, username
         }
     });
