@@ -1,6 +1,5 @@
 import axios, {AxiosInstance, InternalAxiosRequestConfig, AxiosResponse} from 'axios';
 import { useStoreToken } from '@/stores';
-import { ElMessage } from 'element-plus';
 
 const storeToken = useStoreToken();
 
@@ -59,7 +58,7 @@ function myAxios(axiosConfig:any) {
             }
         },
         // 是否跨站点访问控制请求
-        withCredentials: true,
+        // withCredentials: true,
         transformRequest:[(data)=>{
             data = JSON.stringify(data)
             return data;
@@ -106,16 +105,16 @@ function myAxios(axiosConfig:any) {
         }
         return response;
     },error => {
-        // Do something with response error
-        if (axios.isCancel(error)) {
-            console.log('repeated request:'+error.message);
-        }
-        else {
-            // 错误抛到业务代码
-            error.data = {};
-            error.data.msg = '请求超时或服务器异常，请检查网络或联系管理员！';
-            ElMessage.error(error.data.msg);
-        }
+        // // Do something with response error
+        // if (axios.isCancel(error)) {
+        //     console.log('repeated request:'+error.message);
+        // }
+        // else {
+        //     // 错误抛到业务代码
+        //     error.data = {};
+        //     error.data.msg = '请求超时或服务器异常，请检查网络或联系管理员！';
+        //     ElMessage.error(error.data.msg);
+        // }
         return Promise.reject(error);
     });
 

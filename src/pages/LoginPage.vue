@@ -31,7 +31,6 @@
     import { useRouter } from 'vue-router';
     import { userRegister,userLogin } from '@/http/api/user';
     import { useStoreToken } from "@/stores/index";
-    import { ElMessage } from 'element-plus'
 
     const router = useRouter();
     const storeToken = useStoreToken();
@@ -63,6 +62,10 @@
     // 处理注册
     const register = async ()=> {
         try {
+            if(password.value==""&&username.value=="") {
+                ElMessage.error('请填写完整用户名和密码！');
+                return;
+            }
             let res = await userRegister(password.value,username.value);
             console.log(res);
             if (res.data==='isOk') {
@@ -82,6 +85,10 @@
     // 处理登录
     const login = async ()=> {
         try {
+            if(password.value==""&&username.value=="") {
+                ElMessage.error('请填写完整用户名和密码！');
+                return;
+            }
             let res = await userLogin(data);
             if (res.data.code===200) {
                 ElMessage({
@@ -92,7 +99,12 @@
                 router.replace({name: 'homepage'});
             }
             else {
-                ElMessage.error('登录失败：'+res.data.data)
+                let msg = res.data.data;
+                if (msg==='Bad credentials') {
+                    msg='密码错误';
+                    password.value="";
+                }
+                ElMessage.error('登录失败：'+msg);
             }
         } catch (error) {
             console.error(error);
