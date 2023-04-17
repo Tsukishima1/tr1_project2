@@ -1,45 +1,59 @@
 import myAxios from "../axios";
+import { queryAllHallComment } from './hallcomment';
 
 // 下载文章资源
-export function downResources (filePath: string) {
+interface DownResourceParams {
+    filePath: string;
+}
+export function downResources (params: DownResourceParams) {
     return myAxios({
-        url:'/api/passage/downResources',
+        url:'/passage/downResources',
         method: 'POST',
-        data: {
-            filePath
-        }
+        data: {},
+        params: params
     })
 }
 
 // 查询一个文章的图片、资源、及其内容
-export function passageResources (passageID:number) {
+interface UpResourceParams {
+    passageID: number;
+}
+export function passageResources (params: UpResourceParams) {
     return myAxios({
-        url: '/api/passage/passageResources',
+        url: '/passage/passageResources',
         method: 'GET',
-        params: {
-            passageID
-        }
+        params: params
     })
 }
 
 // 查询所有文章
-export function queryAllPassage (pageNo:string, pageSize:string) {
+interface QueryAllPassageParams {
+    pageNo: string,
+    pageSize: string
+}
+
+export function queryAllPassage (params: QueryAllPassageParams) {
     return myAxios({
-        url:'/api/passage/queryAllPassage',
+        url:'/passage/queryAllPassage',
         method: 'GET',
         params: {
-            pageNo, pageSize
+            ...params,
         }
     })
 }
 
 // 查询文章评论
-export function queryCommentByPassageID (pageNo:string, pageSize:string, passageID:number) {
+interface QueryCommentByPassageIDParams {
+    pageNo: string,
+    pageSize: string
+}
+
+export function queryCommentByPassageID (params: QueryCommentByPassageIDParams) {
     return myAxios({
-        url:'/api/passage/queryCommentByPassageID',
+        url:'/passage/queryCommentByPassageID',
         method: 'GET',
         params: {
-            pageNo,pageSize,passageID
+            ...params
         }
     })
 }

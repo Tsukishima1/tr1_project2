@@ -27,7 +27,7 @@
 </template>
     
 <script setup lang='ts'>
-    import { ref } from 'vue'
+    import { ref,reactive } from 'vue'
     import { useRouter } from 'vue-router';
     import { userRegister,userLogin } from '@/http/api/user';
     import { useStoreToken } from "@/stores/index";
@@ -56,6 +56,9 @@
 
     const username = ref('');
     const password = ref('');
+    const data = reactive({
+        password, username
+    })
 
     // 处理注册
     const register = async ()=> {
@@ -79,7 +82,7 @@
     // 处理登录
     const login = async ()=> {
         try {
-            let res = await userLogin(password.value,username.value);
+            let res = await userLogin(data);
             if (res.data.code===200) {
                 ElMessage({
                     type: 'success',

@@ -1,25 +1,35 @@
 import myAxios from "@/http/axios";
 
+interface RegisterParams {
+    password:string;
+    username:string;
+}
+
 //注册
-export function userRegister(password:string, username:string) {
+export function userRegister(params:RegisterParams) {
     return myAxios({
         url:"/user/register",
         method: 'POST',
         data:{},
         params: {
-            password, username
+            ...params
         }
     })
 }
 
+interface LoginParams {
+    password:string;
+    username:string;
+}
+
 //登录
-export function userLogin(password:string, username:string) {
+export function userLogin(params:LoginParams) {
     return myAxios({
         url:"/user/userLogin",
         method: 'POST',
         data: {},
         params: {
-            password, username
+            ...params
         }
     });
 }

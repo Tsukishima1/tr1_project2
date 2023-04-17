@@ -1,12 +1,19 @@
 import myAxios from "../axios";
 
 // 在文章中评论
-export function createComment (content:string, passageID:number, userID:number) {
+interface CreateCommentParams {
+    content: string,
+    passageID: number,
+    userID: number
+}
+
+export function createComment (params: CreateCommentParams) {
     return myAxios({
-        url:'/api/comment/createComment',
+        url:'/comment/createComment',
         method: 'POST',
-        data: {
-            content, passageID, userID
+        data: {},
+        params: {
+            ...params,
         }
     })
 }

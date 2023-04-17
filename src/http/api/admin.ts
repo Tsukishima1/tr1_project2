@@ -1,89 +1,124 @@
 import myAxios from "../axios";
 
 // 在文章中评论
-export function adminCreateComment (content:string, passageID:number) {
+interface AdminCreateCommentParams {
+    content: string,
+    passageID: number,
+}
+
+export function adminCreateComment (params: AdminCreateCommentParams) {
     return myAxios({
-        url:'/api/admin/createComment',
+        url:'/admin/createComment',
         method: 'POST',
-        data: {
-            content, passageID
+        data: {},
+        params: {
+            ...params,
         }
     })
 }
 
 // 创建文章
-export function adminCreatePassage (content:string, title:string) {
+interface AdminCreatePassageParams {
+    content: string,
+    title: string,
+}
+
+export function adminCreatePassage (params: AdminCreatePassageParams) {
     return myAxios({
-        url:'/api/admin/createPassage',
+        url:'/admin/createPassage',
         method: 'POST',
-        data: {
-            content, title
+        data: {},
+        params: {
+            ...params,
         }
     })
 }
 
 // 删除评论
-export function adminDeleteComment (commentID: number) {
+interface AdminDeleteCommentParams {
+    commentID: number,
+}
+
+export function adminDeleteComment (params: AdminDeleteCommentParams) {
     return myAxios({
-        url:'/api/admin/deleteComment',
+        url:'/admin/deleteComment',
         method: 'POST',
-        data: {
-            commentID,
+        data: {},
+        params: {
+            ...params,
         }
     })
 }
 
 // 删除大厅评论
-export function adminDeleteHallComment (ID:number) {
+interface AdminDeleteHallCommentParams {
+    ID: number,
+}
+
+export function adminDeleteHallComment (params: AdminDeleteHallCommentParams) {
     return myAxios({
-        url:'/api/admin/deleteHallComment',
+        url:'/admin/deleteHallComment',
         method: 'POST',
-        data: {
-            ID
-        }
+        data: {},
+        params: params
     })
 }
 
 // 删除文章图片
-export function adminDeleteImg (imgID:number) {
+interface AdminDeleteImgParams {
+    imgID: number
+}
+
+export function adminDeleteImg (params: AdminDeleteImgParams) { 
     return myAxios({
-        url:'/api/admin/deleteImg',
+        url:'/admin/deleteImg',
         method: 'POST',
-        data: {
-            imgID
-        }
+        data: {},
+        params: params
     })
 }
 
 // 删除文章
-export function adminDeletePassage (passageID:number) {
+interface AdminDeletePassageParams {
+    passageID: number
+}
+
+export function adminDeletePassage (params: AdminDeletePassageParams) {
     return myAxios({
-        url:'/api/admin/deletePassage',
+        url:'/admin/deletePassage',
         method: 'POST',
-        data: {
-            passageID
-        }
+        data: {},
+        params: params
     })
 }
 
 // 删除文章资源
-export function adminDeleteResources (resourcesID:number) {
+interface AdminDeleteResourcesParams {
+    resourcesID: number
+}
+
+export function adminDeleteResources (params: AdminDeleteResourcesParams) {
     return myAxios({
-        url:'/api/admin/deleteResources',
+        url:'/admin/deleteResources',
         method: 'POST',
-        data: {
-            resourcesID
-        }
+        data: {},
+        params: params
     })
 }
 
 // 查询所有用户
-export function adminQueryAllUser (pageNo:string, pageSize:string) {
+interface AdminQueryAllUserParams {
+    pageNo: string,
+    pageSize: string
+}
+
+export function adminQueryAllUser (params: AdminQueryAllUserParams) {
     return myAxios({
-        url:'/api/admin/queryAllUser',
+        url:'/admin/queryAllUser',
         method: 'POST',
-        data: {
-            pageNo, pageSize
+        data: {},
+        params: {
+            ...params
         }
     })
 }
@@ -91,50 +126,70 @@ export function adminQueryAllUser (pageNo:string, pageSize:string) {
 // 根据评论个数返回文章
 export function adminQueryPassageByCommentCount () {
     return myAxios({
-        url:'/api/admin/queryPassageByCommentCount',
+        url:'/admin/queryPassageByCommentCount',
         method: 'POST',
-        data: { }
+        data: {}
     })
 }
 
 // 查询文件总数
 export function adminQueryTotalFileCount () {
     return myAxios({
-        url:'/api/admin/queryTotalFileCount',
+        url:'/admin/queryTotalFileCount',
         method: 'POST',
-        data: { }
+        data: {}
     })
 }
 
 // 根据用户名查询注册信息
-export function adminQueryUserInfoByName (name:string) {
+interface AdminQueryUserInfoByName {
+    name: string
+}
+
+export function adminQueryUserInfoByName (params: AdminQueryUserInfoByName) {
     return myAxios({
-        url:'/api/admin/queryUserInfoByName',
+        url:'/admin/queryUserInfoByName',
         method: 'POST',
-        data: {
-            name
-        }
+        data: {},
+        params: params
     })
 }
 
 // 更新公告
-export function adminUpdateNotice (content:string) {
+interface AdminUpdateNoticeParams {
+    content: string
+}
+
+export function adminUpdateNotice (params: AdminUpdateNoticeParams) {
     return myAxios({
-        url:'/api/admin/updateNotice',
+        url:'/admin/updateNotice',
         method: 'POST',
-        data: {
-            content
-        }
+        data: {},
+        params: params
     })
 }
 
 // 更新文章
-export function adminUpdatePassage (content:string, passageID:number, title:string) {
+interface AdminUpdatePassageParams {
+    content: string,
+    passageID: number,
+    title: string
+}
+
+export function adminUpdatePassage (params: AdminUpdatePassageParams) {
     return myAxios({
-        url:'/api/admin/updatePassage',
+        url:'/admin/updatePassage',
         method: 'POST',
-        data: {
-            content, passageID, title
+        data: {},
+        params: {
+            ...params,
         }
     })
 }
+
+// 上传文章图片
+// interface UploadImgParams {
+//     file: File,
+//     passageID: number,
+// }
+
