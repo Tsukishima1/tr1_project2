@@ -27,7 +27,6 @@
 </template>
     
 <script setup lang='ts'>
-    import { ref,reactive } from 'vue'
     import { useRouter } from 'vue-router';
     import { userRegister,userLogin } from '@/http/api/user';
     import { useStoreToken } from "@/stores/index";
@@ -35,9 +34,9 @@
     const router = useRouter();
     const storeToken = useStoreToken();
 
-    const isFocused1:boolean = ref(false);
-    const isFocused2:boolean = ref(false);
-    const toRegis:boolean = ref(false);
+    const isFocused1 = ref(false);
+    const isFocused2 = ref(false);
+    const toRegis = ref(false);
 
     const onFocus1 = () => {
         isFocused1.value = true;
@@ -66,7 +65,7 @@
                 ElMessage.error('请填写完整用户名和密码！');
                 return;
             }
-            let res = await userRegister(password.value,username.value);
+            let res = await userRegister(data);
             console.log(res);
             if (res.data==='isOk') {
                 ElMessage({
