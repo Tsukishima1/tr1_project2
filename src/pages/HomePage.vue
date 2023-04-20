@@ -1,15 +1,19 @@
 <template>
-    <h1>你好!!</h1>
-    <h2>嘿嘿!!</h2>
-    <h3>这好像是专属得样式!!好酷噢</h3>
-    <button @click="router.replace({name: 'loginpage'})" style="margin-top: 20px;">点击切换到loginpage</button>
+    <div class="container">
+        <MyHeader />
+        <HallPassage />
+    </div>
 </template>
-  
-<script setup lang='ts'>
-    import { useRouter } from 'vue-router';
-    const router = useRouter();
-</script>
-  
+
+<script setup lang="ts"></script>
+
 <style>
-  
+    .el-col {
+        border-radius: 4px;
+    }
+
+    .grid-content {
+        border-radius: 4px;
+        min-height: 36px;
+    }
 </style>

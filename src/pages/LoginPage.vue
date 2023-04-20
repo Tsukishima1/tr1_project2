@@ -2,12 +2,12 @@
     <div class="box">
     <div class="inputbox">
         <div class="username">
-        <p for="username" class="animate__animated" :class="{ 'slideInLeft': isFocused1 }">用户名✨</p>
+        <p class="animate__animated" :class="{ 'slideInLeft': isFocused1 }">用户名✨</p>
         <el-input @focus="onFocus1" @blur="onBlur1" v-model="username" placeholder="请输入用户名" id="username" />
         </div>
         <div class="password">
-        <p for="password" class="animate__animated" :class="{ 'slideInLeft': isFocused2 }">密码✨</p>
-        <el-input @focus="onFocus2" @blur="onBlur2" type="password" show-password v-model="password" placeholder="请输入密码" id="password"/>
+        <p class="animate__animated" :class="{ 'slideInLeft': isFocused2 }">密码✨</p>
+        <el-input ref="passwordipt" @focus="onFocus2" @blur="onBlur2" type="password" show-password v-model="password" placeholder="请输入密码" id="password"/>
         </div>
         <div class="button" v-if="!toRegis">
             <button class="login" @click="login">确认登录</button>
@@ -52,6 +52,7 @@
         isFocused2.value = false;
     }
 
+    const passwordipt:Ref<HTMLInputElement|null> = ref(null);
     const username = ref('');
     const password = ref('');
     const data = reactive({
@@ -59,9 +60,9 @@
     })
 
     // 处理注册
-    const register = async ()=> {
+    const register = async ():Promise<void> => {
         try {
-            if(password.value==""&&username.value=="") {
+            if(data.password==""&&data.username=="") {
                 ElMessage.error('请填写完整用户名和密码！');
                 return;
             }
@@ -82,9 +83,9 @@
         }
     }
     // 处理登录
-    const login = async ()=> {
+    const login = async ():Promise<void> => {
         try {
-            if(password.value==""&&username.value=="") {
+            if(data.password==""&&data.username=="") {
                 ElMessage.error('请填写完整用户名和密码！');
                 return;
             }
@@ -94,6 +95,7 @@
                     type: 'success',
                     message: '登录成功！'
                 })
+                sessionStorage.setItem('username', data.username);
                 storeToken.setToken(res.data.data.token);
                 router.replace({name: 'homepage'});
             }
@@ -101,7 +103,9 @@
                 let msg = res.data.data;
                 if (msg==='Bad credentials') {
                     msg='密码错误';
-                    password.value="";
+                    data.password="";
+                    onFocus2();
+                    passwordipt.value?.focus();
                 }
                 ElMessage.error('登录失败：'+msg);
             }
@@ -111,5 +115,5 @@
     }
 </script>
     
-<style scope src="@/assets/style/login.css">
+<style scoped src="@/assets/style/login.css">
 </style>

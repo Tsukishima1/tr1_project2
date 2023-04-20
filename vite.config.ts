@@ -34,5 +34,5 @@ export default defineConfig({
         replacement: resolve(__dirname, './src'),
       }
     ]
-  }
+  },
 })

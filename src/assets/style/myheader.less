@@ -1,0 +1,38 @@
+.header {
+    margin-bottom: 30px;
+    width: 100%;
+    height: 65px;
+    background-color: rgb(246, 246, 246);
+    color: rgb(61, 61, 61);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .left {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        left: 10px;
+        .avatar {
+            margin-left: 40px;
+            background-color: #d7dee4;
+        }
+        span {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+    }
+    .right {
+        position: absolute;
+        right: 10px;
+        button {
+            background-color: rgb(230, 230, 230);
+            font-weight: bold;
+            color: grey;
+            margin-right: 40px;
+            &:hover {
+                transition: linear 0.25s;
+                background-color: #d3d7da;
+            }
+        }
+    }
+}
