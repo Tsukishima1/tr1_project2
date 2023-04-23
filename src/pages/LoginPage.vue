@@ -34,9 +34,9 @@
     const router = useRouter();
     const storeToken = useStoreToken();
 
-    const isFocused1 = ref(false);
-    const isFocused2 = ref(false);
-    const toRegis = ref(false);
+    const isFocused1 = ref<boolean>(false);
+    const isFocused2 = ref<boolean>(false);
+    const toRegis = ref<boolean>(false);
 
     const onFocus1 = () => {
         isFocused1.value = true;
@@ -53,8 +53,8 @@
     }
 
     const passwordipt:Ref<HTMLInputElement|null> = ref(null);
-    const username = ref('');
-    const password = ref('');
+    const username = ref<string>('');
+    const password = ref<string>('');
     const data = reactive({
         password, username
     })
