@@ -35,4 +35,14 @@ export default defineConfig({
       }
     ]
   },
+  server: {
+    proxy: {
+      '/user': 'http://pve.lycoris.site:9780',
+      '/passage': 'http://pve.lycoris.site:9780',
+      '/notice': 'http://pve.lycoris.site:9780',
+      '/hallComment': 'http://pve.lycoris.site:9780',
+      '/comment': 'http://pve.lycoris.site:9780',
+      '/admin': 'http://pve.lycoris.site:9780',
+    }
+  }
 })

@@ -9,8 +9,8 @@ export function downResources (params: DownResourceParams) {
     return myAxios({
         url:'/passage/downResources',
         method: 'POST',
-        data: {},
-        params: params
+        params,
+        responseType: 'blob'
     })
 }
 

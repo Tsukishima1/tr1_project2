@@ -96,10 +96,12 @@
                     message: '登录成功！'
                 })
                 sessionStorage.setItem('username', data.username);
+                sessionStorage.setItem('userID', res.data.data.userID);
                 storeToken.setToken(res.data.data.token);
                 router.replace({name: 'homepage'});
             }
             else {
+                console.log(res);
                 let msg = res.data.data;
                 if (msg==='Bad credentials') {
                     msg='密码错误';

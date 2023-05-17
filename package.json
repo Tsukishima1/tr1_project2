@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cz": "git add . && npx cz"
   },
   "dependencies": {
     "@types/vue-router": "^2.0.0",

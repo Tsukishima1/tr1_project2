@@ -1,8 +1,7 @@
 <template>
     <div class="header">
         <div class="left">
-            <el-avatar class="avatar" :icon="UserFilled" :size="35"></el-avatar>
-            <span>{{ username }}</span>
+            <span style="margin-left: 2rem;">Hello, {{ username }}</span>
             <span class="admin_name" v-show="isAdmin">管理员</span>
             <span class="antiadmin_name" v-show="!isAdmin">普通用户</span>
         </div>
