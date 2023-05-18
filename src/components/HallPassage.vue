@@ -1,11 +1,11 @@
 <template>
     <el-row :gutter="20" style="width: 100%;" justify="center">
-        <el-col :sm="5" :md="5" :lg="5" :xl="5"
+        <!-- <el-col :sm="5" :md="5" :lg="5" :xl="5"
             ><div class="grid-content ep-bg-purple leftnav hidden-xs-only">
                 111
             </div>
-        </el-col>
-        <el-col :xs="23" :sm="12" :md="12" :lg="12" :xl="12"
+        </el-col> -->
+        <el-col :xs="23" :sm="22" :md="20" :lg="16" :xl="16"
             ><div class="grid-content main" style="padding: 20px;">
                 <ul class="list">
                     <li
@@ -29,11 +29,11 @@
             </div>
             <HallComment/>
         </el-col>
-        <el-col :sm="5" :md="5" :lg="5" :xl="5"
+        <!-- <el-col :sm="5" :md="5" :lg="5" :xl="5"
             ><div class="grid-content ep-bg-purple-light hidden-xs-only">
                 333
             </div></el-col
-        >
+        > -->
     </el-row>
 </template>
 

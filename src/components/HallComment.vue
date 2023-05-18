@@ -1,18 +1,19 @@
 <template>
     <div class="grid-content comment">
+        <h3 class="header">Hall Comment 📑</h3>
         <div class="input">
             <el-input
                 class="textarea"
                 v-model="textarea"
                 :rows="4"
                 type="textarea"
-                placeholder="请输入评论内容"
+                placeholder="Please input your content"
                 maxlength="100"
                 show-word-limit
                 resize="none"
             />
             <el-button class="sendbtn" @click="comment" :disabled="isDisabled"
-                >点击发送</el-button
+                >comment</el-button
             >
         </div>
         <el-divider />
