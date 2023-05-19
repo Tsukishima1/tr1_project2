@@ -2,6 +2,8 @@
     <div class="container">
         <MyHeader />
         <HallPassage />
+        <MyFooter />
+        <el-backtop :right="40" :bottom="40" />
     </div>
 </template>
 

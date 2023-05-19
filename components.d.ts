@@ -10,6 +10,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
+    ElBacktop: typeof import('element-plus/es')['ElBacktop']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElDivider: typeof import('element-plus/es')['ElDivider']
@@ -21,6 +22,7 @@ declare module '@vue/runtime-core' {
     HallComment: typeof import('./src/components/HallComment.vue')['default']
     HallPassage: typeof import('./src/components/HallPassage.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
+    MyFooter: typeof import('./src/components/MyFooter.vue')['default']
     MyHeader: typeof import('./src/components/MyHeader.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

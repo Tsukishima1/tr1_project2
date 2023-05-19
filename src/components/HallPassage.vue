@@ -29,11 +29,6 @@
             </div>
             <HallComment/>
         </el-col>
-        <!-- <el-col :sm="5" :md="5" :lg="5" :xl="5"
-            ><div class="grid-content ep-bg-purple-light hidden-xs-only">
-                333
-            </div></el-col
-        > -->
     </el-row>
 </template>
 
