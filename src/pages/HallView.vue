@@ -12,6 +12,7 @@
                         class="item"
                         v-for="(item, index) in items"
                         :key="index"
+                        @click="openPassageView(item.id)"
                     >
                         <p class="title">{{ item.title }}</p>
                         <p class="time">{{ item.time }}</p>
@@ -35,6 +36,8 @@
 <script setup lang="ts">
     import "element-plus/theme-chalk/display.css";
     import { queryAllPassage } from "@/http/api/passage";
+    import { useRouter } from 'vue-router';
+    const router = useRouter();
     let items = ref<PassageItem[]>([]);
     const changePage = reactive({
         currentPage: 1,
@@ -69,6 +72,10 @@
     watch(currentPage, (newVal) => {
         showPassages();
     });
+
+    const openPassageView = (id:number)=> {
+        router.push(`/passage/${id}`);
+    }
 </script>
 
 <style lang="css" scoped src="@/assets/style/hallpassage.css"></style>

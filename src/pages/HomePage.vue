@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <MyHeader />
-        <HallPassage />
+        <router-view></router-view>
         <MyFooter />
         <el-backtop :right="40" :bottom="40" />
     </div>

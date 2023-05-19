@@ -45,7 +45,8 @@ export function queryAllPassage (params: QueryAllPassageParams) {
 // 查询文章评论
 interface QueryCommentByPassageIDParams {
     pageNo: string,
-    pageSize: string
+    pageSize: string,
+    passageID: number
 }
 
 export function queryCommentByPassageID (params: QueryCommentByPassageIDParams) {
