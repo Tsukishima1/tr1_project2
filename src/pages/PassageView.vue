@@ -38,19 +38,22 @@
                         class="item"
                         v-for="(item, index) in items"
                         :key="index"
-                    >   
+                        v-if="commentLoaded"
+                    >
                         <div class="circle"></div>
                         <p class="username">{{ item.username }}:</p>
                         <p class="content">{{ item.content }}</p>
                         <p class="time">{{ item.time }}</p>
                     </li>
+                    <li v-else>Loading...</li>
                 </ul>
                 <el-pagination
                     class="pagination"
                     layout="prev, pager, next"
-                    :total="changePage.total"
-                    :page-size="5"
+                    :page-count="pageCount"
+                    :page-size="4"
                     v-model:current-page="currentPage"
+                    hide-on-single-page
                 />
             </div>
         </el-col>
@@ -65,6 +68,7 @@
     const router = useRouter();
 
     let dataLoaded = ref(false);
+    let commentLoaded = ref(false);
 
     let passageItem = reactive<Passage>({
         content: "",
@@ -104,10 +108,7 @@
     let isDisabled = ref<boolean>(true);
 
     let items = ref<commentItem[]>([]);
-    const changePage = reactive({
-        currentPage: 1,
-        total: Number(""),
-    });
+    let pageCount = ref<number>();
     let currentPage = ref<number>(1);
 
     interface commentItem {
@@ -122,16 +123,18 @@
 
     const getComments = async (): Promise<void> => {
         try {
+            console.log("将请求获取第"+currentPage.value+"页的评论内容");
             let { data } = await queryCommentByPassageID({
                 pageNo: currentPage.value.toString(),
-                pageSize: "5",
+                pageSize: "4",
                 passageID: Number(route.params.id),
             });
-            console.log(data);
             data = JSON.parse(data);
+            pageCount.value = Number(data[data.length - 1][3]);
             items = data.slice(0, data.length - 1);
-            console.log(items);
-            console.log("update");
+            console.log("请求回的内容为：",items);
+            
+            commentLoaded.value = true;
         } catch (error) {
             console.error(error);
         }
@@ -142,6 +145,7 @@
     });
 
     watch(currentPage, (newVal) => {
+        commentLoaded.value=false;
         getComments();
     });
     watch(textarea, (newVal) => {
