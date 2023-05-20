@@ -45,7 +45,8 @@
                         <p class="content">{{ item.content }}</p>
                         <p class="time">{{ item.time }}</p>
                     </li>
-                    <li v-else>Loading...</li>
+                    <li v-else style="text-align: center;">Loading...</li>
+                    <li v-if="items.length===0&&commentLoaded" style="text-align: center;">Nothing Here!</li>
                 </ul>
                 <el-pagination
                     class="pagination"
