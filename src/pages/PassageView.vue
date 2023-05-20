@@ -91,6 +91,7 @@
             });
             passageItem = JSON.parse(data)[0];
             dataLoaded.value = true;
+            document.title=passageItem.title;
         } catch (error) {
             console.error(error);
         }
