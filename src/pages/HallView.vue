@@ -6,8 +6,10 @@
             </div>
         </el-col> -->
         <el-col :xs="23" :sm="22" :md="20" :lg="16" :xl="16"
-            ><div class="grid-content main" style="padding: 20px;">
-                <ul class="list">
+            >
+            <div class="grid-content main" style="padding: 20px;">
+                <el-skeleton :rows="15" animated v-if="!items.length"/>
+                <ul class="list" v-if="items.length">
                     <li
                         class="item"
                         v-for="(item, index) in items"
@@ -26,6 +28,7 @@
                     :total="changePage.total"
                     :page-size="5"
                     v-model:current-page="currentPage"
+                    v-if="items.length"
                 />
             </div>
             <HallComment/>
