@@ -11,6 +11,24 @@
                 </p>
                 <p v-else>Loading...</p>
             </div>
+            <el-divider v-if="docs.length||pics.length" />
+            <div class="resources">
+                <p class="type" v-if="docs.length">docs:</p>
+                <ul class="items">
+                    <li class="item" v-for="(doc, index) in docs" :key="index">
+                        <el-icon :size="20" class="icon"><Document /></el-icon>
+                        {{ doc.name }}
+                    </li>
+                </ul>
+                <p class="type" v-if="pics.length">pics:</p>
+                <ul class="items">
+                    <li class="item" v-for="(pic, index) in pics" :key="index">
+                        <el-icon :size="20" class="icon"><Picture /></el-icon>
+                        {{ pic.name }}
+                    </li>
+                </ul>
+            </div>
+            <!-- <el-icon><Document /></el-icon> -->
             <el-divider />
             <div class="comment">
                 <h3 class="header">Comment</h3>
@@ -46,7 +64,12 @@
                         <p class="time">{{ item.time }}</p>
                     </li>
                     <li v-else style="text-align: center;">Loading...</li>
-                    <li v-if="items.length===0&&commentLoaded" style="text-align: center;">Nothing Here!</li>
+                    <li
+                        v-if="items.length === 0 && commentLoaded"
+                        style="text-align: center;"
+                    >
+                        Nothing Here!
+                    </li>
                 </ul>
                 <el-pagination
                     class="pagination"
@@ -61,6 +84,7 @@
     </el-row>
 </template>
 <script setup lang="ts">
+    import { Document, Picture } from "@element-plus/icons-vue";
     import { passageResources } from "@/http/api/passage";
     import { createComment } from "../http/api/comment";
     import { queryCommentByPassageID } from "../http/api/passage";
@@ -91,7 +115,37 @@
             });
             passageItem = JSON.parse(data)[0];
             dataLoaded.value = true;
-            document.title=passageItem.title;
+            document.title = passageItem.title;
+
+            docs.value = JSON.parse(data)[1];
+            docs.value.forEach((doc) => {
+                const { address } = doc;
+                let arr: string[] = address.split("/");
+                doc.name = arr[arr.length - 1];
+            });
+            console.log(docs.value);
+            
+            const indexsToDelete:number[] = [];
+            pics.value = docs.value.reduce((acc:Resource[], doc, index) => {
+                if (/\.(jpg|png|gif)$/.test(doc.address)) {
+                    acc.push(doc);
+                    indexsToDelete.push(index);
+                }
+                return acc;
+            }, []);
+            // 删除docs里的图片
+            indexsToDelete.reverse().forEach((index)=> {
+                docs.value.splice(index,1);
+            })
+
+
+            pics.value.forEach((pic) => {
+                const { address } = pic;
+                let arr: string[] = address.split("/");
+                pic.name = arr[arr.length - 1];
+            });
+
+            console.log(docs.value,pics.value);
         } catch (error) {
             console.error(error);
         }
@@ -125,7 +179,6 @@
 
     const getComments = async (): Promise<void> => {
         try {
-            console.log("将请求获取第"+currentPage.value+"页的评论内容");
             let { data } = await queryCommentByPassageID({
                 pageNo: currentPage.value.toString(),
                 pageSize: "4",
@@ -134,8 +187,7 @@
             data = JSON.parse(data);
             pageCount.value = Number(data[data.length - 1][3]);
             items = data.slice(0, data.length - 1);
-            console.log("请求回的内容为：",items);
-            
+
             commentLoaded.value = true;
         } catch (error) {
             console.error(error);
@@ -147,7 +199,7 @@
     });
 
     watch(currentPage, (newVal) => {
-        commentLoaded.value=false;
+        commentLoaded.value = false;
         getComments();
     });
     watch(textarea, (newVal) => {
@@ -167,10 +219,21 @@
             });
             textarea.value = "";
             getComments();
-            console.log("successful!");
         } catch (error) {
             console.error(error);
         }
+    };
+
+    // -----------------------
+
+    let docs = ref<Resource[]>([]);
+    let pics = ref<Resource[]>([]);
+
+    type Resource = {
+        id: number;
+        passageID: number;
+        address: string;
+        name?: string;
     };
 </script>
 <style scoped src="@/assets/style/passageview.css"></style>

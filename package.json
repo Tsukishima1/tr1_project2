@@ -10,6 +10,7 @@
     "cz": "git add . && npx cz"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
     "@types/vue-router": "^2.0.0",
     "animate.css": "^4.1.1",
     "axios": "^1.3.4",
