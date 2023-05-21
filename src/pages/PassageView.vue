@@ -11,18 +11,28 @@
                 </p>
                 <p v-else>Loading...</p>
             </div>
-            <el-divider v-if="docs.length||pics.length" />
+            <el-divider v-if="docs.length || pics.length" />
             <div class="resources">
                 <p class="type" v-if="docs.length">docs:</p>
                 <ul class="items">
-                    <li class="item" v-for="(doc, index) in docs" :key="index">
+                    <li
+                        @click="download(doc.address)"
+                        class="item"
+                        v-for="(doc, index) in docs"
+                        :key="index"
+                    >
                         <el-icon :size="20" class="icon"><Document /></el-icon>
                         {{ doc.name }}
                     </li>
                 </ul>
                 <p class="type" v-if="pics.length">pics:</p>
                 <ul class="items">
-                    <li class="item" v-for="(pic, index) in pics" :key="index">
+                    <li
+                        @click="download(pic.address)"
+                        class="item"
+                        v-for="(pic, index) in pics"
+                        :key="index"
+                    >
                         <el-icon :size="20" class="icon"><Picture /></el-icon>
                         {{ pic.name }}
                     </li>
@@ -79,6 +89,7 @@
                     v-model:current-page="currentPage"
                     hide-on-single-page
                 />
+                <!-- <el-pagination layout="prev, pager, next" :total="50" /> -->
             </div>
         </el-col>
     </el-row>
@@ -87,7 +98,10 @@
     import { Document, Picture } from "@element-plus/icons-vue";
     import { passageResources } from "@/http/api/passage";
     import { createComment } from "../http/api/comment";
-    import { queryCommentByPassageID } from "../http/api/passage";
+    import {
+        queryCommentByPassageID,
+        downResources,
+    } from "../http/api/passage";
 
     const route = useRoute();
     const router = useRouter();
@@ -123,10 +137,9 @@
                 let arr: string[] = address.split("/");
                 doc.name = arr[arr.length - 1];
             });
-            console.log(docs.value);
-            
-            const indexsToDelete:number[] = [];
-            pics.value = docs.value.reduce((acc:Resource[], doc, index) => {
+
+            const indexsToDelete: number[] = [];
+            pics.value = docs.value.reduce((acc: Resource[], doc, index) => {
                 if (/\.(jpg|png|gif)$/.test(doc.address)) {
                     acc.push(doc);
                     indexsToDelete.push(index);
@@ -134,18 +147,15 @@
                 return acc;
             }, []);
             // 删除docs里的图片
-            indexsToDelete.reverse().forEach((index)=> {
-                docs.value.splice(index,1);
-            })
-
+            indexsToDelete.reverse().forEach((index) => {
+                docs.value.splice(index, 1);
+            });
 
             pics.value.forEach((pic) => {
                 const { address } = pic;
                 let arr: string[] = address.split("/");
                 pic.name = arr[arr.length - 1];
             });
-
-            console.log(docs.value,pics.value);
         } catch (error) {
             console.error(error);
         }
@@ -185,7 +195,7 @@
                 passageID: Number(route.params.id),
             });
             data = JSON.parse(data);
-            pageCount.value = Number(data[data.length - 1][3]);
+            pageCount.value = parseInt(data[data.length - 1][3]);
             items = data.slice(0, data.length - 1);
 
             commentLoaded.value = true;
@@ -234,6 +244,28 @@
         passageID: number;
         address: string;
         name?: string;
+    };
+
+    // 下载
+
+    const download = async (address: string): Promise<void> => {
+        try {
+            const {data} = await downResources({
+                filePath: address,
+            });
+            const arr: string[] = address.split("/");
+            let blob = new Blob([data]);
+            let downloadElement = document.createElement("a");
+            let href = window.URL.createObjectURL(blob); //创建下载的链接
+            downloadElement.href = href;
+            downloadElement.setAttribute('download', arr[4]);
+            document.body.appendChild(downloadElement);
+            downloadElement.click(); //点击下载
+            document.body.removeChild(downloadElement); //下载完成移除元素
+            window.URL.revokeObjectURL(href); //释放掉blob对象
+        } catch (error) {
+            console.error(error);
+        }
     };
 </script>
 <style scoped src="@/assets/style/passageview.css"></style>
