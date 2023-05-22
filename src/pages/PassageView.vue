@@ -84,12 +84,10 @@
                 <el-pagination
                     class="pagination"
                     layout="prev, pager, next"
-                    :page-count="pageCount"
-                    :page-size="4"
+                    :pageCount="pageCount ?? 0"
                     v-model:current-page="currentPage"
                     hide-on-single-page
                 />
-                <!-- <el-pagination layout="prev, pager, next" :total="50" /> -->
             </div>
         </el-col>
     </el-row>
@@ -250,7 +248,7 @@
 
     const download = async (address: string): Promise<void> => {
         try {
-            const {data} = await downResources({
+            const { data } = await downResources({
                 filePath: address,
             });
             const arr: string[] = address.split("/");
@@ -258,7 +256,7 @@
             let downloadElement = document.createElement("a");
             let href = window.URL.createObjectURL(blob); //创建下载的链接
             downloadElement.href = href;
-            downloadElement.setAttribute('download', arr[4]);
+            downloadElement.setAttribute("download", arr[4]);
             document.body.appendChild(downloadElement);
             downloadElement.click(); //点击下载
             document.body.removeChild(downloadElement); //下载完成移除元素
