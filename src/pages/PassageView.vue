@@ -13,7 +13,7 @@
             </div>
             <el-divider v-if="docs.length || pics.length" />
             <div class="resources">
-                <p class="type" v-if="docs.length">docs:</p>
+                <p class="type" v-if="docs.length">📄 docs 👇</p>
                 <ul class="items">
                     <li
                         @click="download(doc.address)"
@@ -25,7 +25,7 @@
                         {{ doc.name }}
                     </li>
                 </ul>
-                <p class="type" v-if="pics.length">pics:</p>
+                <p class="type" v-if="pics.length">📸 pics 👇</p>
                 <ul class="items">
                     <li
                         @click="download(pic.address)"
@@ -261,6 +261,10 @@
             downloadElement.click(); //点击下载
             document.body.removeChild(downloadElement); //下载完成移除元素
             window.URL.revokeObjectURL(href); //释放掉blob对象
+            ElMessage({
+                message: "下载成功！",
+                type: "success",
+            });
         } catch (error) {
             console.error(error);
         }
