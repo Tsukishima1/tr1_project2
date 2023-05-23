@@ -120,6 +120,7 @@
         passageViewStore.commentLoaded = false;
         passageViewStore.pageCount = 0;
         passageViewStore.textarea = "";
+        document.title = "blog-like-site";
     });
 
     const goBack = () => {
