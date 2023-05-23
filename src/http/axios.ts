@@ -3,9 +3,6 @@ import axios, {
     InternalAxiosRequestConfig,
     AxiosResponse,
 } from "axios";
-import { useStoreToken } from "@/stores";
-
-const storeToken = useStoreToken();
 
 const showStatus = (status: number) => {
     let message = "";
@@ -92,7 +89,7 @@ function myAxios(axiosConfig: any) {
     service.interceptors.request.use(
         (config: InternalAxiosRequestConfig<any>) => {
             // 绑定token
-            let token = storeToken.getToken();
+            let token = sessionStorage.getItem('token');
             if (token) {
                 config.headers.token = `${token}`;
             }

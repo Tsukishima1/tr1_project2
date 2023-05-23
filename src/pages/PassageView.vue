@@ -123,7 +123,7 @@
     });
 
     const goBack = () => {
-        router.back();
+        router.replace({name: "hall"});
     };
     // 直接cv有点冗杂
     let textarea = toRefs(passageViewStore).textarea;

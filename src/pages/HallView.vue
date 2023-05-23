@@ -77,7 +77,7 @@
     });
 
     const openPassageView = (id:number)=> {
-        router.push(`/passage/${id}`);
+        router.push(`/home/passage/${id}`);
     }
 </script>
 

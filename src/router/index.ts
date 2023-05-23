@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
                 component: ()=> import("@/pages/HallView.vue")
             },
             {
-                path: "/passage/:id(\\d+)",
+                path: "passage/:id(\\d+)",
                 name: "passage",
                 meta: {
                     requiresAuth: true,
