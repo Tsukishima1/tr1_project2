@@ -116,7 +116,7 @@ export const usePassageViewStore = defineStore("passageView", () => {
         getComments(id);
     }
 
-    async function download(address: string): Promise<void> {
+    async function download(address: string): Promise<void> {        
         const { data } = await downResources({
             filePath: address,
         });
@@ -133,7 +133,7 @@ export const usePassageViewStore = defineStore("passageView", () => {
         window.URL.revokeObjectURL(href); //释放掉blob对象
         
         ElMessage({
-            message: "下载成功！",
+            message: "successfully downloaded!",
             type: "success",
         });
     }

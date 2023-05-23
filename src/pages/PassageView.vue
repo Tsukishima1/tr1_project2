@@ -16,7 +16,7 @@
                 <p class="type" v-if="docs.length">📄 docs 👇</p>
                 <ul class="items">
                     <li
-                        @click="passageViewStore.download(doc.address)"
+                        @click="download(doc.address)"
                         class="item"
                         v-for="(doc, index) in docs"
                         :key="index"
@@ -28,7 +28,7 @@
                 <p class="type" v-if="pics.length">📸 pics 👇</p>
                 <ul class="items">
                     <li
-                        @click="passageViewStore.download(pic.address)"
+                        @click="download(pic.address)"
                         class="item"
                         v-for="(pic, index) in pics"
                         :key="index"
@@ -133,6 +133,11 @@
     let items = toRefs(passageViewStore).items;
     let pageCount = toRefs(passageViewStore).pageCount;
     let currentPage = toRefs(passageViewStore).currentPage;
+
+    const download = (address:string)=> {
+        ElMessage("Downloading...");
+        passageViewStore.download(address);
+    }
 
     watch(currentPage, (newVal) => {
         passageViewStore.commentLoaded = false;
