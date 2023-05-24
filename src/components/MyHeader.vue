@@ -75,10 +75,15 @@
                 });
             });
     };
+    const admin = () => {
+        value.value = "";
+        router.push({ name: "admin" });
+    };
 
-    const handleChange = (value:string)=> {
-        if (value==="logout") logout();
-    }
+    const handleChange = (value: string) => {
+        if (value === "logout") logout();
+        else admin();
+    };
 </script>
 
 <style scoped src="@/assets/style/myheader.css"></style>

@@ -27,6 +27,14 @@ const routes: Array<RouteRecordRaw> = [
                 },
                 component: () => import("@/pages/PassageView.vue"),
             },
+            {
+                path: 'admin',
+                name: 'admin',
+                meta: {
+                    requiresAuth: true,
+                },
+                component: ()=> import("@/pages/AdminView.vue")
+            }
         ]
     },
 ];
