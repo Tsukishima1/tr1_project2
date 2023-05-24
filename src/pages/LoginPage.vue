@@ -70,7 +70,7 @@
             console.log(res);
             if (res.data==='isOk') {
                 ElMessage({
-                    message:'注册成功，请重新登录！',
+                    message:'successfully registered!',
                     type:'success',
                 }),
                 toRegis.value=false;
@@ -93,7 +93,7 @@
             if (res.data.code===200) {
                 ElMessage({
                     type: 'success',
-                    message: '登录成功！'
+                    message: 'successfully logged in!'
                 })
                 sessionStorage.setItem('username', data.username);
                 sessionStorage.setItem('userID', res.data.data.userID);

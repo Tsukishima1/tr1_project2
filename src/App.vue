@@ -1,17 +1,7 @@
 <template>
-    <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
-      </router-view>
+    <router-view></router-view>
 </template>
-  
-<script setup lang='ts'>
-    import { useRouter } from 'vue-router';
-    const router = useRouter();
-    
-</script>
-  
-<style>
-  
-</style>
+
+<script setup lang="ts"></script>
+
+<style></style>
