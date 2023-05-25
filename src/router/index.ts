@@ -39,6 +39,11 @@ const routes: Array<RouteRecordRaw> = [
                         path: 'updateNotice',
                         name: 'updateNotice',
                         component: () => import("@/components/UpdateNotice.vue"),
+                    },
+                    {
+                        path: 'userInfo',
+                        name: 'userInfo',
+                        component: () => import("@/components/UserInfo.vue"),
                     }
                 ]
             }
