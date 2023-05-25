@@ -2,28 +2,26 @@
     <div class="box">
     <div class="inputbox">
         <div class="username">
-        <p class="animate__animated" :class="{ 'slideInLeft': isFocused1 }">用户名✨</p>
-        <el-input @focus="onFocus1" @blur="onBlur1" v-model="username" placeholder="请输入用户名" id="username" />
+        <p class="animate__animated" :class="{ 'slideInLeft': isFocused1 }">username✨</p>
+        <el-input @focus="onFocus1" @blur="onBlur1" v-model="username" placeholder="input something.." id="username" />
         </div>
         <div class="password">
-        <p class="animate__animated" :class="{ 'slideInLeft': isFocused2 }">密码✨</p>
-        <el-input ref="passwordipt" @focus="onFocus2" @blur="onBlur2" type="password" show-password v-model="password" placeholder="请输入密码" id="password"/>
+        <p class="animate__animated" :class="{ 'slideInLeft': isFocused2 }">password✨</p>
+        <el-input ref="passwordipt" @focus="onFocus2" @blur="onBlur2" type="password" show-password v-model="password" placeholder="input something.." id="password"/>
         </div>
         <div class="button" v-if="!toRegis">
-            <button class="login" @click="login">确认登录</button>
+            <button class="login" @click="login">LOG IN</button>
             <el-divider/>
-            <a class="register" @click="toRegis=true">未有账号?点此注册👈</a>
+            <a class="register" @click="toRegis=true">No account? Register!👈</a>
         </div>
         <div class="button" v-if="toRegis">
-            <button class="regis" @click="register">点击注册</button>
+            <button class="regis" @click="register">REGISTER</button>
             <el-divider/>
-            <a class="register" @click="toRegis=false">已有账号?点此登录👈</a>
+            <a class="register" @click="toRegis=false">Already? Log in!👈</a>
         </div>        
         </div>
     </div>
     <br>
-    <!-- <button class="register" @click="register">注册</button><br><br> -->
-    <!-- <button @click="toHomePage()">切换到homepage</button> -->
 </template>
     
 <script setup lang='ts'>
@@ -63,7 +61,7 @@
     const register = async ():Promise<void> => {
         try {
             if(data.password==""&&data.username=="") {
-                ElMessage.error('请填写完整用户名和密码！');
+                ElMessage.error('Please fill in the complete information!');
                 return;
             }
             let res = await userRegister(data);
@@ -76,7 +74,7 @@
                 toRegis.value=false;
             }
             else {
-                ElMessage.error('该账号已存在，无法注册');
+                ElMessage.error('This account already exists!');
             }
         } catch (error) {
             console.error(error);
@@ -86,7 +84,7 @@
     const login = async ():Promise<void> => {
         try {
             if(data.password==""&&data.username=="") {
-                ElMessage.error('请填写完整用户名和密码！');
+                ElMessage.error('Please fill in the complete information!');
                 return;
             }
             let res = await userLogin(data);
@@ -103,12 +101,12 @@
             else {
                 let msg = res.data.data;
                 if (msg==='Bad credentials') {
-                    msg='密码错误';
+                    msg='Wrong answer!';
                     data.password="";
                     onFocus2();
                     passwordipt.value?.focus();
                 }
-                ElMessage.error('登录失败：'+msg);
+                ElMessage.error('Login failed: '+msg);
             }
         } catch (error) {
             console.error(error);
