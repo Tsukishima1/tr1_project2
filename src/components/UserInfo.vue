@@ -70,6 +70,10 @@
         adminStore.queryUserInfoByName(name);
         iptusername.value = "";
     };
+
+    onUnmounted(()=> {
+        adminStore.queryUserData=undefined;
+    })
 </script>
 
 <style lang="less" scoped>
