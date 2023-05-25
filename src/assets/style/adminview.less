@@ -1,0 +1,30 @@
+.grid-content {
+    background-color: whitesmoke;
+}
+.container {
+    display: flex;
+    gap: 1rem;
+    margin: 0px;
+    .nav {
+        height: 100%;
+        background-color: rgb(250, 250, 250);
+        padding: 1rem;
+        ul {
+            border-radius: 0.3rem;
+            overflow: hidden;
+            background-color: skyblue;
+            li {
+                cursor: pointer;
+                background-color: whitesmoke;
+                padding: 0.6rem 0.3rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: 0.2s linear;
+                &:hover {
+                    background-color: rgb(236, 236, 236);
+                }
+            }
+        }
+    }
+}

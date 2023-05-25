@@ -33,7 +33,14 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     requiresAuth: true,
                 },
-                component: ()=> import("@/pages/AdminView.vue")
+                component: ()=> import("@/pages/AdminView.vue"),
+                children: [
+                    {
+                        path: 'updateNotice',
+                        name: 'updateNotice',
+                        component: () => import("@/components/UpdateNotice.vue"),
+                    }
+                ]
             }
         ]
     },
