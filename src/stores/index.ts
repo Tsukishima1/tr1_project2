@@ -74,6 +74,7 @@ export const usePassageViewStore = defineStore("passageView", () => {
             let arr: string[] = address.split("/");
             doc.name = arr[arr.length - 1];
         });
+        pics.value = Object.values(JSON.parse(data)[2]);
     }
 
     async function getComments(id: any): Promise<void> {

@@ -11,9 +11,12 @@
                 </p>
                 <p v-else>Loading...</p>
             </div>
-            <el-divider v-if="docs.length || pics.length" />
-            <div class="resources">
-                <p class="type" v-if="docs.length">📎</p>
+            <div class="img">
+                <img src="" alt="" v-for="(item, index) in passageViewStore.pics" :key="index">
+            </div>
+            <el-divider v-if="(docs.length || pics.length || isAdmin()) && passageViewStore.dataLoaded" />
+            <div class="resources" v-if="passageViewStore.dataLoaded">
+                <p class="type" v-if="docs.length || isAdmin()">📎</p>
                 <ul class="items">
                     <li
                         @click="download(doc.address)"
@@ -25,7 +28,18 @@
                         {{ doc.name }}
                     </li>
                 </ul>
-                <MyUpload v-if="isAdmin()"/>
+                <div class="upload-container" v-if="isAdmin() && passageViewStore.dataLoaded">
+                    <el-upload
+                        action="/passage"
+                        class="upload-demo"
+                        drag
+                        style="margin-top: 1rem;"
+                        :on-change="handleChange"
+                        :auto-upload="false"
+                    >
+                        <el-icon ><Plus /></el-icon>
+                    </el-upload>
+                </div>
             </div>
             <!-- <el-icon><Document /></el-icon> -->
             <el-divider />
@@ -56,7 +70,10 @@
                         v-for="(item, index) in items"
                         :key="index"
                         v-if="passageViewStore.commentLoaded"
-                        :class="{'admincomment': item.username==='admin'?true:false}"
+                        :class="{
+                            admincomment:
+                                item.username === 'admin' ? true : false,
+                        }"
                     >
                         <div class="circle"></div>
                         <p class="username">{{ item.username }}:</p>
@@ -65,7 +82,9 @@
                     </li>
                     <li v-else style="text-align: center;">Loading...</li>
                     <li
-                        v-if="items.length === 0 && passageViewStore.commentLoaded"
+                        v-if="
+                            items.length === 0 && passageViewStore.commentLoaded
+                        "
                         style="text-align: center;"
                     >
                         Nothing Here!
@@ -83,8 +102,9 @@
     </el-row>
 </template>
 <script setup lang="ts">
-    import { Document, Picture } from "@element-plus/icons-vue";
+    import { Document, Plus } from "@element-plus/icons-vue";
     import { usePassageViewStore } from "@/stores/index";
+    import { uploadResources } from "@/http/api/admin";
     const route = useRoute();
     const router = useRouter();
     const passageViewStore = usePassageViewStore();
@@ -124,15 +144,15 @@
     let pageCount = toRefs(passageViewStore).pageCount;
     let currentPage = toRefs(passageViewStore).currentPage;
 
-    const download = (address:string)=> {
+    const download = (address: string) => {
         ElMessage("Downloading...");
         passageViewStore.download(address);
-    }
-    const isAdmin = ():boolean => {
-        if (sessionStorage.getItem('username')==='admin') {
+    };
+    const isAdmin = (): boolean => {
+        if (sessionStorage.getItem("username") === "admin") {
             return true;
-        }else return false;
-    }
+        } else return false;
+    };
 
     watch(currentPage, (newVal) => {
         passageViewStore.commentLoaded = false;
@@ -145,5 +165,14 @@
             isDisabled.value = true;
         }
     });
+
+    const handleChange = async (file: any): Promise<void> => {
+        const { data } = await uploadResources({
+            file: file.raw,
+            passageID: route.params.id.toString(),
+        });
+        console.log(data);
+        passageViewStore.getPassage(route.params.id);
+    };
 </script>
 <style scoped src="@/assets/style/passageview.css"></style>
