@@ -39,6 +39,7 @@ declare module '@vue/runtime-core' {
     Header: typeof import('./src/components/Header.vue')['default']
     MyFooter: typeof import('./src/components/MyFooter.vue')['default']
     MyHeader: typeof import('./src/components/MyHeader.vue')['default']
+    PassageManagement: typeof import('./src/components/PassageManagement.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UpdateNotice: typeof import('./src/components/UpdateNotice.vue')['default']

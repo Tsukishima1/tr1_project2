@@ -75,13 +75,13 @@ export const usePassageViewStore = defineStore("passageView", () => {
         });
 
         const indexsToDelete: number[] = [];
-        pics.value = docs.value.reduce((acc: Resource[], doc, index) => {
+        pics.value = docs.value.filter((doc, index) => {
             if (/\.(jpg|png|gif)$/.test(doc.address)) {
-                acc.push(doc);
                 indexsToDelete.push(index);
+                return true;
             }
-            return acc;
-        }, []);
+            return false;
+        });
         // 删除docs里的图片
         indexsToDelete.reverse().forEach((index) => {
             docs.value.splice(index, 1);

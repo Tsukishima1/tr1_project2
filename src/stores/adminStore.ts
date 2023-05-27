@@ -4,7 +4,10 @@ import {
     adminUpdateNotice,
     adminQueryAllUser,
     adminQueryUserInfoByName,
+    adminQueryPassageByCommentCount,
 } from "@/http/api/admin";
+
+import { Passage } from "@/stores/index";
 
 type Notice = {
     content: string;
@@ -21,6 +24,7 @@ export const useAdminStore = defineStore("adminStore", () => {
     const tableData = ref<User[]>([]);
     const userInfoPageCount = ref<number>();
     const queryUserData = ref<User>();
+    let popPassages = ref<Passage[]>([]);
 
     async function getNotice(): Promise<void> {
         const { data } = await queryNotice();
@@ -45,15 +49,20 @@ export const useAdminStore = defineStore("adminStore", () => {
         queryUserData.value = data;
         if (!queryUserData.value) {
             ElMessage({
-                type: 'error',
-                message: 'User not found! Please try again'
-            })
+                type: "error",
+                message: "User not found! Please try again",
+            });
             return;
         }
         ElMessage({
             type: "success",
             message: "successfully queried user!",
         });
+    }
+    async function queryPassageByCommentCount(): Promise<void> {
+        const { data } = await adminQueryPassageByCommentCount();
+        popPassages.value = data.passageItem.map((item: any) => item[0]);
+        console.log(popPassages.value);
     }
 
     return {
@@ -65,5 +74,7 @@ export const useAdminStore = defineStore("adminStore", () => {
         userInfoPageCount,
         queryUserInfoByName,
         queryUserData,
+        queryPassageByCommentCount,
+        popPassages,
     };
 });

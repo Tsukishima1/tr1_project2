@@ -5,6 +5,7 @@
                 <ul>
                     <li @click="router.push({name:'updateNotice'})">Update Notice</li>
                     <li @click="router.push({name:'userInfo'})">User Info</li>
+                    <li @click="router.push({name:'passageManagement'})">Passage</li>
                 </ul>
             </div>
         </el-col>

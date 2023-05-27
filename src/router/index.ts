@@ -44,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
                         path: 'userInfo',
                         name: 'userInfo',
                         component: () => import("@/components/UserInfo.vue"),
+                    },
+                    {
+                        path: 'passageManagement',
+                        name: 'passageManagement',
+                        component: () => import("@/components/PassageManagement.vue")
                     }
                 ]
             }
