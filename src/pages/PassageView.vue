@@ -67,6 +67,7 @@
                         v-for="(item, index) in items"
                         :key="index"
                         v-if="passageViewStore.commentLoaded"
+                        :class="{'admincomment': item.username==='admin'?true:false}"
                     >
                         <div class="circle"></div>
                         <p class="username">{{ item.username }}:</p>
