@@ -64,6 +64,7 @@ export const usePassageViewStore = defineStore("passageView", () => {
         const { data } = await passageResources({
             passageID: Number(id),
         });
+        console.log(JSON.parse(data));
         passageItem.value = JSON.parse(data)[0];
         dataLoaded.value = true;
         document.title = passageItem.value.title;
@@ -72,25 +73,6 @@ export const usePassageViewStore = defineStore("passageView", () => {
             const { address } = doc;
             let arr: string[] = address.split("/");
             doc.name = arr[arr.length - 1];
-        });
-
-        const indexsToDelete: number[] = [];
-        pics.value = docs.value.filter((doc, index) => {
-            if (/\.(jpg|png|gif)$/.test(doc.address)) {
-                indexsToDelete.push(index);
-                return true;
-            }
-            return false;
-        });
-        // 删除docs里的图片
-        indexsToDelete.reverse().forEach((index) => {
-            docs.value.splice(index, 1);
-        });
-
-        pics.value.forEach((pic) => {
-            const { address } = pic;
-            let arr: string[] = address.split("/");
-            pic.name = arr[arr.length - 1];
         });
     }
 

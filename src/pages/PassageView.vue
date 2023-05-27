@@ -13,7 +13,7 @@
             </div>
             <el-divider v-if="docs.length || pics.length" />
             <div class="resources">
-                <p class="type" v-if="docs.length">📄 docs 👇</p>
+                <p class="type" v-if="docs.length">📎</p>
                 <ul class="items">
                     <li
                         @click="download(doc.address)"
@@ -25,18 +25,7 @@
                         {{ doc.name }}
                     </li>
                 </ul>
-                <p class="type" v-if="pics.length">📸 pics 👇</p>
-                <ul class="items">
-                    <li
-                        @click="download(pic.address)"
-                        class="item"
-                        v-for="(pic, index) in pics"
-                        :key="index"
-                    >
-                        <el-icon :size="20" class="icon"><Picture /></el-icon>
-                        {{ pic.name }}
-                    </li>
-                </ul>
+                <MyUpload v-if="isAdmin()"/>
             </div>
             <!-- <el-icon><Document /></el-icon> -->
             <el-divider />
@@ -138,6 +127,11 @@
     const download = (address:string)=> {
         ElMessage("Downloading...");
         passageViewStore.download(address);
+    }
+    const isAdmin = ():boolean => {
+        if (sessionStorage.getItem('username')==='admin') {
+            return true;
+        }else return false;
     }
 
     watch(currentPage, (newVal) => {
