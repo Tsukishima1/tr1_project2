@@ -5,10 +5,13 @@ import {
     adminQueryAllUser,
     adminQueryUserInfoByName,
     adminQueryPassageByCommentCount,
+    adminDeleteImg,
+    adminDeleteResources,
 } from "@/http/api/admin";
 
-import { Passage } from "@/stores/index";
-
+import { Passage,usePassageViewStore } from "@/stores/index";
+const passageViewStore = usePassageViewStore();
+const route = useRoute();
 type Notice = {
     content: string;
     id: number;
@@ -64,6 +67,22 @@ export const useAdminStore = defineStore("adminStore", () => {
         popPassages.value = data.passageItem.map((item: any) => item[0]);
         console.log(popPassages.value);
     }
+    async function deleteImg(id:number):Promise<void> {
+        const {data} = await adminDeleteImg({imgID:id});
+        passageViewStore.pics = passageViewStore.pics.filter((item)=>item.id !== id);
+        ElMessage({
+            type: "success",
+            message: data
+        })
+    }
+    async function deleteDoc(id:number):Promise<void> {
+        const {data} = await adminDeleteResources({resourcesID:id});
+        passageViewStore.docs = passageViewStore.docs.filter((item)=>item.id !== id);
+        ElMessage({
+            type: "success",
+            message: data
+        })
+    }
 
     return {
         notices,
@@ -75,6 +94,6 @@ export const useAdminStore = defineStore("adminStore", () => {
         queryUserInfoByName,
         queryUserData,
         queryPassageByCommentCount,
-        popPassages,
+        popPassages,deleteImg, deleteDoc
     };
 });

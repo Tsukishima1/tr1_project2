@@ -16,10 +16,10 @@
                 <div v-for="(item, index) in passageViewStore.pics">
                     <img
                         :key="index"
-                        :src="'data:image/png;base64,' + item"
+                        :src="'data:image/png;base64,' + item.address"
                         alt=""
                     >
-                    <el-button class="imgbtn" size="small" circle @click="deleteImg"><el-icon><CloseBold /></el-icon></el-button>
+                    <el-button class="imgbtn" size="small" circle @click="adminStore.deleteImg(item.id)" v-if="isAdmin"><el-icon><CloseBold /></el-icon></el-button>
                 </div>
                 <div
                     class="upload-container"
@@ -30,10 +30,11 @@
                         class="upload-demo"
                         drag
                         style="margin-top: 1rem;"
+                        :show-file-list="false"
                         :on-change="handleChangeImg"
                         :auto-upload="false"
                     >
-                        <el-icon><Plus /></el-icon>
+                        <el-icon><Upload /></el-icon>
                     </el-upload>
                 </div>
             </div>
@@ -47,13 +48,14 @@
                 <p class="type" v-if="docs.length || isAdmin()">📎</p>
                 <ul class="items">
                     <li
-                        @click="download(doc.address)"
                         class="item"
                         v-for="(doc, index) in docs"
                         :key="index"
                     >
                         <el-icon :size="20" class="icon"><Document /></el-icon>
                         {{ doc.name }}
+                        <el-button class="imgbtn" size="small" circle @click="download(doc.address)" style="margin-left: 0.5rem;"><el-icon><Download /></el-icon></el-button>
+                        <el-button class="imgbtn" size="small" circle @click="adminStore.deleteDoc(doc.id)" v-if="isAdmin"><el-icon><CloseBold /></el-icon></el-button>
                     </li>
                 </ul>
                 <div
@@ -67,8 +69,9 @@
                         style="margin-top: 1rem;"
                         :on-change="handleChange"
                         :auto-upload="false"
+                        :show-file-list="false"
                     >
-                        <el-icon><Plus /></el-icon>
+                        <el-icon><Upload /></el-icon>
                     </el-upload>
                 </div>
             </div>
@@ -133,12 +136,14 @@
     </el-row>
 </template>
 <script setup lang="ts">
-    import { Document, Plus, CloseBold } from "@element-plus/icons-vue";
+    import { Document, Plus, CloseBold, Download, Upload } from "@element-plus/icons-vue";
     import { usePassageViewStore } from "@/stores/index";
+    import { useAdminStore } from "@/stores/adminStore"
     import { uploadResources, adminUploadImg } from '@/http/api/admin';
     const route = useRoute();
     const router = useRouter();
     const passageViewStore = usePassageViewStore();
+    const adminStore = useAdminStore();
     const pics = toRefs(passageViewStore).pics;
     const docs = toRefs(passageViewStore).docs;
 
@@ -167,7 +172,7 @@
     const goBack = () => {
         router.back();
     };
-    // 直接cv有点冗杂
+
     let textarea = toRefs(passageViewStore).textarea;
     let isDisabled = ref<boolean>(true);
 

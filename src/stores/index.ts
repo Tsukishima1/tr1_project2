@@ -43,6 +43,10 @@ export type Resource = {
     address: string;
     name?: string;
 };
+export interface Pic {
+    address: string;
+    id: number;
+}
 
 export const usePassageViewStore = defineStore("passageView", () => {
     const passageItem = ref<Passage>({
@@ -53,7 +57,7 @@ export const usePassageViewStore = defineStore("passageView", () => {
     });
     let dataLoaded = ref(false);
     const docs = ref<Resource[]>([]);
-    const pics = ref<Resource[]>([]);
+    const pics = ref<Pic[]>([]);
     let currentPage = ref<number>(1);
     let items = ref<commentItem[]>([]);
     let pageCount = ref<number>();
@@ -64,7 +68,6 @@ export const usePassageViewStore = defineStore("passageView", () => {
         const { data } = await passageResources({
             passageID: Number(id),
         });
-        console.log(JSON.parse(data));
         passageItem.value = JSON.parse(data)[0];
         dataLoaded.value = true;
         document.title = passageItem.value.title;
@@ -74,7 +77,21 @@ export const usePassageViewStore = defineStore("passageView", () => {
             let arr: string[] = address.split("/");
             doc.name = arr[arr.length - 1];
         });
-        pics.value = Object.values(JSON.parse(data)[2]);
+
+        const dataObj = JSON.parse(data)[2];
+        for (const key in dataObj) {
+            if (Object.hasOwnProperty.call(dataObj, key)) {
+                const matchResult = key.match(/^imgID:(\d+)$/);
+                if (matchResult) {
+                    const id = Number(matchResult[1]);
+                    const address = dataObj[key];
+                    const isExist = pics.value.some((item) => item.id === id);
+                    if (!isExist) {
+                        pics.value.push({ id, address });
+                    }
+                }
+            }
+        }
     }
 
     async function getComments(id: any): Promise<void> {
@@ -99,7 +116,7 @@ export const usePassageViewStore = defineStore("passageView", () => {
         getComments(id);
     }
 
-    async function download(address: string): Promise<void> {        
+    async function download(address: string): Promise<void> {
         const { data } = await downResources({
             filePath: address,
         });
@@ -107,20 +124,20 @@ export const usePassageViewStore = defineStore("passageView", () => {
         let blob = new Blob([data]);
         let downloadElement = document.createElement("a");
         let href = window.URL.createObjectURL(blob); //创建下载的链接
-        
+
         downloadElement.href = href;
         downloadElement.setAttribute("download", arr[4]);
         document.body.appendChild(downloadElement);
         downloadElement.click(); //点击下载
         document.body.removeChild(downloadElement); //下载完成移除元素
         window.URL.revokeObjectURL(href); //释放掉blob对象
-        
+
         ElMessage({
             message: "successfully downloaded!",
             type: "success",
         });
     }
-    
+
     return {
         getPassage,
         passageItem,
