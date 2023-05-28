@@ -19,7 +19,7 @@
                         :src="'data:image/png;base64,' + item.address"
                         alt=""
                     >
-                    <el-button class="imgbtn" size="small" circle @click="adminStore.deleteImg(item.id)" v-if="isAdmin"><el-icon><CloseBold /></el-icon></el-button>
+                    <el-button class="imgbtn" size="small" circle @click="adminStore.deleteImg(item.id)" v-if="isAdmin()"><el-icon><CloseBold /></el-icon></el-button>
                 </div>
                 <div
                     class="upload-container"
@@ -55,7 +55,7 @@
                         <el-icon :size="20" class="icon"><Document /></el-icon>
                         {{ doc.name }}
                         <el-button class="imgbtn" size="small" circle @click="download(doc.address)" style="margin-left: 0.5rem;"><el-icon><Download /></el-icon></el-button>
-                        <el-button class="imgbtn" size="small" circle @click="adminStore.deleteDoc(doc.id)" v-if="isAdmin"><el-icon><CloseBold /></el-icon></el-button>
+                        <el-button class="imgbtn" size="small" circle @click="adminStore.deleteDoc(doc.id)" v-if="isAdmin()"><el-icon><CloseBold /></el-icon></el-button>
                     </li>
                 </ul>
                 <div
