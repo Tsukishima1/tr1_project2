@@ -13,12 +13,14 @@
             </div>
             <!-- :src="'data:image/png;base64,' + item" -->
             <div class="img">
-                <img
-                    v-for="(item, index) in passageViewStore.pics"
-                    :key="index"
-                    :src="'data:image/png;base64,' + item"
-                    alt=""
-                />
+                <div v-for="(item, index) in passageViewStore.pics">
+                    <img
+                        :key="index"
+                        :src="'data:image/png;base64,' + item"
+                        alt=""
+                    >
+                    <el-button class="imgbtn" size="small" circle @click="deleteImg"><el-icon><CloseBold /></el-icon></el-button>
+                </div>
                 <div
                     class="upload-container"
                     v-if="isAdmin() && passageViewStore.dataLoaded"
@@ -131,7 +133,7 @@
     </el-row>
 </template>
 <script setup lang="ts">
-    import { Document, Plus } from "@element-plus/icons-vue";
+    import { Document, Plus, CloseBold } from "@element-plus/icons-vue";
     import { usePassageViewStore } from "@/stores/index";
     import { uploadResources, adminUploadImg } from '@/http/api/admin';
     const route = useRoute();

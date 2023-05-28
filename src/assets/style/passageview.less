@@ -31,15 +31,24 @@
         width: 100%;
         display: flex;
         gap: 0.5rem;
-        flex-direction: column;
         align-items: center;
-        img {
-            max-width: 40%;
-            border-radius: 0.7rem;
-            box-shadow: 0 0 5px 0 rgb(201, 201, 201);
+        div {
+            display: inline-block;
+            position: relative;
+            img {
+                height: 20rem;
+                position: relative;
+                border-radius: 0.7rem;
+                box-shadow: 0 0 5px 0 rgb(201, 201, 201);
+            }
+            .imgbtn {
+                position: absolute;
+                right: 0.4rem;
+                top: 0.4rem;
+            }
         }
-        .upload-container {
-            width: 50%;
+        :deep(.el-upload-dragger) {
+            width: 4rem;
         }
     }
 }
@@ -140,7 +149,7 @@
             color: rgb(62, 62, 62);
             cursor: pointer;
             transition: ease-in-out 0.2s;
-            flex-grow:1;
+            flex-grow: 1;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -157,12 +166,8 @@
 }
 @media screen and (max-width: 600px) {
     .container .img {
-        max-height: 40rem;
-        img {
-            max-width: 90%;
-        }
-        .upload-container {
-            width: 90%;
+        div img {
+            height: 10rem;
         }
     }
 }
