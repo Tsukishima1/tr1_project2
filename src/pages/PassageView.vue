@@ -11,10 +11,36 @@
                 </p>
                 <p v-else>Loading...</p>
             </div>
+            <!-- :src="'data:image/png;base64,' + item" -->
             <div class="img">
-                <img src="" alt="" v-for="(item, index) in passageViewStore.pics" :key="index">
+                <img
+                    v-for="(item, index) in passageViewStore.pics"
+                    :key="index"
+                    :src="'data:image/png;base64,' + item"
+                    alt=""
+                />
+                <div
+                    class="upload-container"
+                    v-if="isAdmin() && passageViewStore.dataLoaded"
+                >
+                    <el-upload
+                        action="/passage"
+                        class="upload-demo"
+                        drag
+                        style="margin-top: 1rem;"
+                        :on-change="handleChangeImg"
+                        :auto-upload="false"
+                    >
+                        <el-icon><Plus /></el-icon>
+                    </el-upload>
+                </div>
             </div>
-            <el-divider v-if="(docs.length || pics.length || isAdmin()) && passageViewStore.dataLoaded" />
+            <el-divider
+                v-if="
+                    (docs.length || pics.length || isAdmin()) &&
+                    passageViewStore.dataLoaded
+                "
+            />
             <div class="resources" v-if="passageViewStore.dataLoaded">
                 <p class="type" v-if="docs.length || isAdmin()">📎</p>
                 <ul class="items">
@@ -28,7 +54,10 @@
                         {{ doc.name }}
                     </li>
                 </ul>
-                <div class="upload-container" v-if="isAdmin() && passageViewStore.dataLoaded">
+                <div
+                    class="upload-container"
+                    v-if="isAdmin() && passageViewStore.dataLoaded"
+                >
                     <el-upload
                         action="/passage"
                         class="upload-demo"
@@ -37,7 +66,7 @@
                         :on-change="handleChange"
                         :auto-upload="false"
                     >
-                        <el-icon ><Plus /></el-icon>
+                        <el-icon><Plus /></el-icon>
                     </el-upload>
                 </div>
             </div>
@@ -104,7 +133,7 @@
 <script setup lang="ts">
     import { Document, Plus } from "@element-plus/icons-vue";
     import { usePassageViewStore } from "@/stores/index";
-    import { uploadResources } from "@/http/api/admin";
+    import { uploadResources, adminUploadImg } from '@/http/api/admin';
     const route = useRoute();
     const router = useRouter();
     const passageViewStore = usePassageViewStore();
@@ -171,8 +200,15 @@
             file: file.raw,
             passageID: route.params.id.toString(),
         });
-        console.log(data);
+        passageViewStore.getPassage(route.params.id);
+    };
+    const handleChangeImg = async (file: any): Promise<void> => {
+        const { data } = await adminUploadImg({
+            file: file.raw,
+            passageID: route.params.id.toString(),
+        });
         passageViewStore.getPassage(route.params.id);
     };
 </script>
+
 <style scoped src="@/assets/style/passageview.css"></style>
