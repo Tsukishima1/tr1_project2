@@ -19,8 +19,18 @@
         <el-divider />
         <ul class="list">
             <li class="item" v-for="(item, index) in items" :key="index">
-                <p class="content">{{ item.content }}</p>
-                <p class="time">{{ item.time }}</p>
+                <div>
+                    <p class="content">{{ item.content }}</p>
+                    <p class="time">{{ item.time }}</p>
+                </div>
+                <el-button
+                    class="imgbtn"
+                    size="small"
+                    circle
+                    @click="deleteHallComment(item.id)"
+                    v-if="isAdmin()"
+                    ><el-icon><CloseBold /></el-icon
+                ></el-button>
             </li>
         </ul>
         <el-pagination
@@ -38,7 +48,9 @@
         queryAllHallComment,
         createHallComment,
     } from "@/http/api/hallcomment";
+    import { CloseBold } from "@element-plus/icons-vue";
     let textarea = ref<string>("");
+    import { adminDeleteHallComment } from "../http/api/admin";
     let isDisabled = ref<boolean>(true);
 
     const items = ref<hallCommentItem[]>([]);
@@ -66,6 +78,18 @@
             console.error(error);
         }
     };
+    const deleteHallComment = async (ID: number): Promise<void> => {
+        try {
+            const { data } = await adminDeleteHallComment({ ID });
+            showHallComments();
+            ElMessage({
+                type: "success",
+                message: data,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     onMounted(() => {
         showHallComments();
@@ -74,14 +98,13 @@
     watch(currentPage, (newVal) => {
         showHallComments();
     });
-    watch(textarea,(newVal)=>{
-        if (textarea.value!="") {
-            isDisabled.value=false;
+    watch(textarea, (newVal) => {
+        if (textarea.value != "") {
+            isDisabled.value = false;
+        } else {
+            isDisabled.value = true;
         }
-        else {
-            isDisabled.value=true;
-        }
-    })
+    });
 
     const comment = async (): Promise<void> => {
         try {
@@ -94,6 +117,11 @@
         } catch (error) {
             console.error(error);
         }
+    };
+    const isAdmin = (): boolean => {
+        if (sessionStorage.getItem("username") === "admin") {
+            return true;
+        } else return false;
     };
 </script>
 

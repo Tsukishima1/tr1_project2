@@ -5,6 +5,7 @@ import {
     passageResources,
     queryCommentByPassageID,
 } from "@/http/api/passage";
+import { queryAllHallComment } from "@/http/api/hallcomment";
 
 export const useStoreToken = defineStore("storeToken", {
     state: () => ({

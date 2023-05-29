@@ -1,6 +1,12 @@
 <template>
     <el-row :gutter="0" style="width: 100%;" justify="center">
         <el-col :xs="20" :sm="20" class="container">
+            <el-button
+                class="dltpassagebtn"
+                @click="deletePassage"
+                v-if="isAdmin()"
+                >删除该篇文章</el-button
+            >
             <el-page-header class="page-header" @click="goBack">
             </el-page-header>
             <div class="passage">
@@ -18,8 +24,15 @@
                         :key="index"
                         :src="'data:image/png;base64,' + item.address"
                         alt=""
-                    >
-                    <el-button class="imgbtn" size="small" circle @click="adminStore.deleteImg(item.id)" v-if="isAdmin()"><el-icon><CloseBold /></el-icon></el-button>
+                    />
+                    <el-button
+                        class="imgbtn"
+                        size="small"
+                        circle
+                        @click="adminStore.deleteImg(item.id)"
+                        v-if="isAdmin()"
+                        ><el-icon><CloseBold /></el-icon
+                    ></el-button>
                 </div>
                 <div
                     class="upload-container"
@@ -47,15 +60,25 @@
             <div class="resources" v-if="passageViewStore.dataLoaded">
                 <p class="type" v-if="docs.length || isAdmin()">📎</p>
                 <ul class="items">
-                    <li
-                        class="item"
-                        v-for="(doc, index) in docs"
-                        :key="index"
-                    >
+                    <li class="item" v-for="(doc, index) in docs" :key="index">
                         <el-icon :size="20" class="icon"><Document /></el-icon>
                         {{ doc.name }}
-                        <el-button class="imgbtn" size="small" circle @click="download(doc.address)" style="margin-left: 0.5rem;"><el-icon><Download /></el-icon></el-button>
-                        <el-button class="imgbtn" size="small" circle @click="adminStore.deleteDoc(doc.id)" v-if="isAdmin()"><el-icon><CloseBold /></el-icon></el-button>
+                        <el-button
+                            class="imgbtn"
+                            size="small"
+                            circle
+                            @click="download(doc.address)"
+                            style="margin-left: 0.5rem;"
+                            ><el-icon><Download /></el-icon
+                        ></el-button>
+                        <el-button
+                            class="imgbtn"
+                            size="small"
+                            circle
+                            @click="adminStore.deleteDoc(doc.id)"
+                            v-if="isAdmin()"
+                            ><el-icon><CloseBold /></el-icon
+                        ></el-button>
                     </li>
                 </ul>
                 <div
@@ -109,10 +132,24 @@
                                 item.username === 'admin' ? true : false,
                         }"
                     >
-                        <div class="circle"></div>
-                        <p class="username">{{ item.username }}:</p>
-                        <p class="content">{{ item.content }}</p>
-                        <p class="time">{{ item.time }}</p>
+                        <div class="commentbox">
+                            <div class="circle"></div>
+                            <p class="username">{{ item.username }}:</p>
+                            <p class="content">{{ item.content }}</p>
+                            <p class="time">{{ item.time }}</p>
+                        </div>
+                        <div class="btnbox">
+                            <el-button
+                                class="imgbtn"
+                                size="small"
+                                circle
+                                @click="
+                                    adminStore.deleteComment(item.commentID)
+                                "
+                                v-if="isAdmin()"
+                                ><el-icon><CloseBold /></el-icon
+                            ></el-button>
+                        </div>
                     </li>
                     <li v-else style="text-align: center;">Loading...</li>
                     <li
@@ -136,10 +173,15 @@
     </el-row>
 </template>
 <script setup lang="ts">
-    import { Document, Plus, CloseBold, Download, Upload } from "@element-plus/icons-vue";
+    import {
+        Document,
+        CloseBold,
+        Download,
+        Upload,
+    } from "@element-plus/icons-vue";
     import { usePassageViewStore } from "@/stores/index";
-    import { useAdminStore } from "@/stores/adminStore"
-    import { uploadResources, adminUploadImg } from '@/http/api/admin';
+    import { useAdminStore } from "@/stores/adminStore";
+    import { uploadResources, adminUploadImg } from "@/http/api/admin";
     const route = useRoute();
     const router = useRouter();
     const passageViewStore = usePassageViewStore();
@@ -215,6 +257,26 @@
             passageID: route.params.id.toString(),
         });
         passageViewStore.getPassage(route.params.id);
+    };
+    const deletePassage = () => {
+        ElMessageBox.confirm(
+            "You will permanently delete the passage. Continue?",
+            "Warning",
+            {
+                confirmButtonText: "OK",
+                cancelButtonText: "Cancel",
+                type: "warning",
+            }
+        )
+            .then(() => {
+                adminStore.deletePassage(+route.params.id);
+            })
+            .catch(() => {
+                ElMessage({
+                    type: "info",
+                    message: "Delete canceled",
+                });
+            });
     };
 </script>
 

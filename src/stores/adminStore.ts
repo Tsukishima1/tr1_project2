@@ -7,11 +7,13 @@ import {
     adminQueryPassageByCommentCount,
     adminDeleteImg,
     adminDeleteResources,
+    adminDeleteComment,
+    adminDeleteHallComment,
+    adminDeletePassage,
 } from "@/http/api/admin";
 
 import { Passage,usePassageViewStore } from "@/stores/index";
 const passageViewStore = usePassageViewStore();
-const route = useRoute();
 type Notice = {
     content: string;
     id: number;
@@ -23,10 +25,13 @@ type User = {
 };
 
 export const useAdminStore = defineStore("adminStore", () => {
+    const route = useRoute();
+    const router = useRouter();
     const notices = ref<Notice[]>([]);
     const tableData = ref<User[]>([]);
     const userInfoPageCount = ref<number>();
     const queryUserData = ref<User>();
+    const passageID = ref<number>(+route.params?.id ?? 0);
     let popPassages = ref<Passage[]>([]);
 
     async function getNotice(): Promise<void> {
@@ -83,6 +88,22 @@ export const useAdminStore = defineStore("adminStore", () => {
             message: data
         })
     }
+    async function deleteComment(commentID:number):Promise<void> {
+        const {data} = await adminDeleteComment({commentID});
+        passageViewStore.getComments(passageID.value);
+        ElMessage({
+            type: "success",
+            message: data
+        })
+    }
+    async function deletePassage(passageID:number):Promise<void> {
+        const {data} = await adminDeletePassage({passageID});
+        router.replace({name: "hall"});
+        ElMessage({
+            type: "success",
+            message: "successfully deleted!"
+        });
+    }
 
     return {
         notices,
@@ -94,6 +115,6 @@ export const useAdminStore = defineStore("adminStore", () => {
         queryUserInfoByName,
         queryUserData,
         queryPassageByCommentCount,
-        popPassages,deleteImg, deleteDoc
+        popPassages,deleteImg, deleteDoc,deleteComment,deletePassage
     };
 });
