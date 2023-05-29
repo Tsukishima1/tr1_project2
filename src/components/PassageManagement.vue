@@ -1,9 +1,30 @@
 <template>
     <div class="passage-container">
+        <div class="create">
+            <h3 style="font-size: 1.5rem; padding-bottom: 0.5rem;">
+                Create New Passage!
+            </h3>
+            Title:<el-input placeholder="Please input the title" v-model="ipttitle" style="margin-bottom: 1rem;"></el-input>
+            Content:<el-input
+                class="textarea"
+                v-model="iptcontent"
+                rows="5"
+                type="textarea"
+                placeholder="Please input your content"
+                style="margin-bottom: 1rem;"
+            />
+            <el-button @click="create" type="success" style="margin-bottom: 1rem;" :disabled="isDisabled">CREATE!</el-button>
+        </div>
         <div class="popular">
-            <h3 style="font-size: 1.5rem; padding-bottom: 0.5rem;">Popular Articles: </h3>
+            <h3 style="font-size: 1.5rem; padding-bottom: 0.5rem;">
+                Popular Articles:
+            </h3>
             <ul>
-                <li v-for="(item, index) in adminStore.popPassages" :key="index" @click="toPassageView(item.id)">
+                <li
+                    v-for="(item, index) in adminStore.popPassages"
+                    :key="index"
+                    @click="toPassageView(item.id)"
+                >
                     <p class="title">{{ item.title }}</p>
                     <p class="content">{{ item.content }}</p>
                 </li>
@@ -11,19 +32,40 @@
         </div>
     </div>
 </template>
-    
-<script setup lang='ts'>
-    import { useAdminStore } from '@/stores/adminStore';
+
+<script setup lang="ts">
+    import { useAdminStore } from "@/stores/adminStore";
     const adminStore = useAdminStore();
     const router = useRouter();
+    let ipttitle = ref<string>("");
+    let iptcontent = ref<string>("");
+    const isDisabled = ref<boolean>(true);
     onMounted(() => {
         adminStore.queryPassageByCommentCount();
-    })
-    const toPassageView = (id:number) => {
+    });
+    const toPassageView = (id: number) => {
         router.push(`/home/passage/${id}`);
+    };
+    const create = ()=> {
+        adminStore.createPassage(iptcontent.value,ipttitle.value);
+        iptcontent.value="", ipttitle.value="";
     }
+    watch(iptcontent, (newVal) => {
+        if (iptcontent.value !== "" && ipttitle.value !== "") {
+            isDisabled.value = false;
+        } else {
+            isDisabled.value = true;
+        }
+    });
+    watch(ipttitle, (newVal) => {
+        if (iptcontent.value !== "" && ipttitle.value !== "") {
+            isDisabled.value = false;
+        } else {
+            isDisabled.value = true;
+        }
+    });
 </script>
-    
+
 <style lang="less">
     .popular {
         ul {
@@ -55,5 +97,9 @@
                 }
             }
         }
+    }
+    .create {
+        display: flex;
+        flex-direction: column;
     }
 </style>

@@ -10,6 +10,7 @@ import {
     adminDeleteComment,
     adminDeleteHallComment,
     adminDeletePassage,
+    adminCreatePassage,
 } from "@/http/api/admin";
 
 import { Passage,usePassageViewStore } from "@/stores/index";
@@ -70,7 +71,6 @@ export const useAdminStore = defineStore("adminStore", () => {
     async function queryPassageByCommentCount(): Promise<void> {
         const { data } = await adminQueryPassageByCommentCount();
         popPassages.value = data.passageItem.map((item: any) => item[0]);
-        console.log(popPassages.value);
     }
     async function deleteImg(id:number):Promise<void> {
         const {data} = await adminDeleteImg({imgID:id});
@@ -104,6 +104,13 @@ export const useAdminStore = defineStore("adminStore", () => {
             message: "successfully deleted!"
         });
     }
+    async function createPassage(content:string,title:string):Promise<void> {
+        const {data} = await adminCreatePassage({content,title});
+        ElMessage({
+            type: "success",
+            message: "Passage created successfully!"
+        })
+    }
 
     return {
         notices,
@@ -115,6 +122,6 @@ export const useAdminStore = defineStore("adminStore", () => {
         queryUserInfoByName,
         queryUserData,
         queryPassageByCommentCount,
-        popPassages,deleteImg, deleteDoc,deleteComment,deletePassage
+        popPassages,deleteImg, deleteDoc,deleteComment,deletePassage,createPassage
     };
 });
