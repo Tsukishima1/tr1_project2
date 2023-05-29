@@ -1,21 +1,47 @@
 <template>
     <el-row :gutter="0" style="width: 100%;" justify="center">
         <el-col :xs="20" :sm="20" class="container">
-            <el-button
-                class="dltpassagebtn"
-                @click="deletePassage"
-                v-if="isAdmin()"
-                >删除该篇文章</el-button
-            >
+            <div class="btnbox">
+                <el-button
+                    class="dltpassagebtn"
+                    @click="deletePassage"
+                    v-if="isAdmin()"
+                    >DELETE</el-button
+                >
+                <el-button @click="isRevise = true" v-if="!isRevise">
+                    REVISE
+                </el-button>
+                <el-button @click="revise" type="success" v-if="isRevise"
+                    >OK</el-button
+                >
+            </div>
             <el-page-header class="page-header" @click="goBack">
             </el-page-header>
             <div class="passage">
-                <p class="title">{{ passageViewStore.passageItem.title }}</p>
-                <p class="time">{{ passageViewStore.passageItem.time }}</p>
-                <p v-if="passageViewStore.dataLoaded" class="content">
-                    {{ passageViewStore.passageItem.content }}
+                <p class="title" v-if="!isRevise">
+                    {{ passageViewStore.passageItem.title }}
                 </p>
-                <p v-else>Loading...</p>
+                <el-input
+                    class="titleipt"
+                    v-model="titleipt"
+                    style="margin-bottom: 0.4rem;"
+                    v-else
+                ></el-input>
+                <p class="time">{{ passageViewStore.passageItem.time }}</p>
+                <div v-if="!isRevise">
+                    <p v-if="passageViewStore.dataLoaded" class="content">
+                        {{ passageViewStore.passageItem.content }}
+                    </p>
+                    <p v-else>Loading...</p>
+                </div>
+                <el-input
+                    v-else
+                    v-model="contentipt"
+                    rows="5"
+                    type="textarea"
+                    placeholder="Please input your content"
+                    style="margin-bottom: 1rem;"
+                ></el-input>
             </div>
             <!-- :src="'data:image/png;base64,' + item" -->
             <div class="img">
@@ -188,6 +214,30 @@
     const adminStore = useAdminStore();
     const pics = toRefs(passageViewStore).pics;
     const docs = toRefs(passageViewStore).docs;
+    const isRevise = ref<boolean>(false);
+    const titleipt = ref<string>(passageViewStore.passageItem.title);
+    watch(
+        () => passageViewStore.passageItem.title,
+        (newVal) => {
+            titleipt.value = newVal;
+        }
+    );
+    const contentipt = ref<string>(passageViewStore.passageItem.content);
+    watch(
+        () => passageViewStore.passageItem.content,
+        (newVal) => {
+            contentipt.value = newVal;
+        }
+    );
+
+    const revise = () => {
+        isRevise.value = false;
+        adminStore.updatePassage(
+            contentipt.value,
+            titleipt.value,
+            +route.params.id
+        );
+    };
 
     onMounted(() => {
         passageViewStore.getPassage(route.params.id);
