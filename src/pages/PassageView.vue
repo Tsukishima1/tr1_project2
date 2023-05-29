@@ -1,11 +1,10 @@
 <template>
     <el-row :gutter="0" style="width: 100%;" justify="center">
         <el-col :xs="20" :sm="20" class="container">
-            <div class="btnbox">
+            <div class="btnbox" v-if="isAdmin()">
                 <el-button
                     class="dltpassagebtn"
                     @click="deletePassage"
-                    v-if="isAdmin()"
                     >DELETE</el-button
                 >
                 <el-button @click="isRevise = true" v-if="!isRevise">
