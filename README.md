@@ -1,3 +1,14 @@
+# 开始
+`npm run install` + `npm run dev` 在本地运行
+
+# 界面预览
+![preview1](docs/shots/Snipaste1.jpg)
+![preview2](docs/shots/Snipaste2.jpg)
+![preview3](docs/shots/Snipaste3.jpg)
+![preview4](docs/shots/Snipaste4.jpg)
+
+----
+
 # Vue 3 + TypeScript + Vite
 
 This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
