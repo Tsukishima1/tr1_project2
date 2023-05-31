@@ -236,6 +236,7 @@
             titleipt.value,
             +route.params.id
         );
+        passageViewStore.passageItem.content = contentipt.value;
     };
 
     onMounted(() => {
