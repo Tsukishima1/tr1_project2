@@ -1,5 +1,5 @@
 # 开始
-`npm run install` + `npm run dev` 在本地运行
+`npm install` + `npm run dev` 在本地运行
 
 # 界面预览
 ![preview1](docs/shots/Snipaste1.jpg)
